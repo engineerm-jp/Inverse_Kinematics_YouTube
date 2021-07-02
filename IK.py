@@ -3,6 +3,7 @@
 # This code may still contain some bugs so please be be careful as I can not take any responsibility. So please test this code
 # thoroughly beforehand by giving a variety of inputs, and confirm that it gives the required output. 
 # Also, the input - the coordinates - must be within the reach of the leg, otherwise it will cause math error
+# For the robot's dimension, refer to my YouTube video: https://youtu.be/YCw0JkgeTv8
 
 from math import sin,cos,acos,atan,sqrt,degrees,radians, pi
 
@@ -35,7 +36,7 @@ def IK(pos):
     # theta3 : this is the angle the for the third servo motor and is measured from the axis that is co-linear to the femur. 
  
     x, y, z = pos[0], pos[1], pos[2]
-    x += 0.00001
+    x += 0.00001 # this is to avoid zero-division math. error
 
     # specify the length of the leg components
     coxa    = 10      # coxa length
