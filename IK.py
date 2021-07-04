@@ -4,12 +4,12 @@
 # thoroughly beforehand by giving a variety of inputs, and confirm that it gives the required output. 
 # Also, the input - the coordinates - must be within the reach of the leg, otherwise it will cause math error
 # For the robot's dimension, refer to my YouTube video: https://youtu.be/YCw0JkgeTv8
+# Note: x-axis is positive to the right of the robot, y-axis is positive in the forward direction, and z-axis upwards
 
 from math import sin,cos,acos,atan,sqrt,degrees,radians, pi
 
 def coordinate_to_degrees(x, y): # function to convert coordinates to angles from the x-axis (0~360)
-    x += 0.00001    
- 
+    
     if x >= 0 and y >= 0:   # first quadrant
         angle = degrees(atan(y/x))
     elif x < 0 and y >= 0:  # second quadrant
@@ -57,7 +57,7 @@ def IK(pos):
         
     L = sqrt(x**2 + y**2)
         
-    if L > femur + tibia: 
+    if L > femur + tibia: # if the input coordinate is too far (i.e. physically not possible), extend the leg to its maximum length
         L = femur + tibia 
     
     alpha = atan(z/L)
@@ -71,5 +71,5 @@ def IK(pos):
     return round(theta1,1), round(degrees(theta2),1), round(degrees(theta3),1)
 
 # Example of usage
-angles = IK([7.07, -7.07, -17])
+angles = IK([7.07, -7.07, -10])
 print(angles)
