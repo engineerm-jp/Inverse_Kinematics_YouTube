@@ -46,8 +46,8 @@ def IK(pos):
     theta1 = coordinate_to_degrees(x, y)    # this is the angle from x-axis in anticlockwise rotation
 
     # calculate the offset due to coxa
-    coxaXoffset = abs(coxa*cos(theta1))      
-    coxaYoffset = abs(coxa*sin(theta1))     
+    coxaXoffset = abs(coxa*cos(radians(theta1)))      
+    coxaYoffset = abs(coxa*sin(radians(theta1)))     
     
     # remove the offset due to the length of coxa    
     if x >= 0:  x = x - coxaXoffset
