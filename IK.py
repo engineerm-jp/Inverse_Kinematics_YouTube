@@ -2,8 +2,9 @@
 # Note: the output can only be used for a certain configuration of joints. For more detail, please refer to the diagram/s. 
 # This code may still contain some bugs so please be be careful as I can not take any responsibility. So please test this code
 # thoroughly beforehand by giving a variety of inputs, and confirm that it gives the required output. 
-# Also, the input - the coordinates - must be within the reach of the leg, otherwise it will cause math error
+# Also, the input - the coordinates - must be within the reach of the leg, otherwise it will most likely cause a math error
 # YouTube: https://youtu.be/YCw0JkgeTv8
+# Author: EngineerM
 
 from math import sin,cos,acos,atan,sqrt,degrees,radians, pi
 
@@ -22,10 +23,11 @@ def coordinate_to_degrees(x, y): # function to convert coordinates to angles fro
 
 
 # try the following code to see how it works
-#
-# test_coordinates = [[0,0], [1,1], [0,1], [-1,1], [-1, 0], [-1,-1], [0, -1], [1,-1]]
-# for XY in test_coordinates: 
-#     print(f'{XY[0]}, {XY[1]} in degrees is {coordinate_to_degrees(XY[0], XY[1])}')
+'''
+test_coordinates = [[0,0], [1,1], [0,1], [-1,1], [-1, 0], [-1,-1], [0, -1], [1,-1]]
+for XY in test_coordinates: 
+    print(f'[{XY[0]}, {XY[1]}] in degrees is {coordinate_to_degrees(XY[0], XY[1])}')
+'''
 
 
 def IK(pos): 
@@ -53,7 +55,7 @@ def IK(pos):
 
     P = sqrt(x**2 + y**2)
         
-    if P > femur + tibia: # if the goal coordinate is too far away, this makes sure to avoid math. err. 
+    if P > femur + tibia: 
         P = femur + tibia 
     
     alpha = atan(z/P)
@@ -69,5 +71,57 @@ def IK(pos):
     return round(theta1,1), round(degrees(theta2),1), round(degrees(theta3),1)
 
 # Example of usage
+'''
 angles = IK([7.07, -7.07, 10])
 print(angles)
+'''
+
+def IK_leg(pos, LegID=1): # modified version of IK(), and will take the offset angles of each leg into account
+    x, y, z = pos[0], pos[1], pos[2]
+    x += 0.00000001 # this is to avoid zero-division math error
+
+    # specify the length of the leg components <- put your original values
+    coxa    = 10      # coxa length
+    femur   = 10      # femur length
+    tibia   = 10      # tibia length
+
+    # offset angle of each leg from x axis (+ve counterclockwise) <- put your original values
+    offset_angles = [0, 45, 135, 180, 225, 315]
+
+    theta1 = coordinate_to_degrees(x, y)    # angle from x-axis in anticlockwise rotation
+
+   
+
+    # remove the offset due to the length of coxa    
+    x -= coxa*cos(radians(theta1))
+    y -= coxa*sin(radians(theta1))
+
+     # subtract the offset angle from the x axis
+    theta1 -= offset_angles[LegID-1] # theta1 = theta1 - offset_angles[LegID-1]
+
+    P = sqrt(x**2 + y**2)
+        
+    if P > femur + tibia: 
+        P = femur + tibia 
+        print("coordinate too far")
+    
+    alpha = atan(z/P)
+
+    c = sqrt(P**2 + z**2)
+
+    beta = acos((femur**2+c**2-tibia**2)/(2*femur*c))
+    theta2 = beta + alpha
+    theta3 = acos((tibia**2+femur**2-c**2)/(2*tibia*femur)) - pi
+    
+    return round(theta1,1), round(degrees(theta2),1), round(degrees(theta3),1)
+'''
+# Example of usage
+example_pos =  [[ 10,  10, -10],
+                [-10,  10, -10],
+                [-10, -10, -10],
+                [ 10, -10, -10]]
+legID = 5 
+for pos in example_pos: 
+    angles = IK_leg(pos, legID)
+    print(f'theta1 = {angles[0]}, theta2 = {angles[1]}, theta3 = {angles[2]}')
+'''
