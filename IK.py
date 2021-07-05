@@ -3,13 +3,13 @@
 # This code may still contain some bugs so please be be careful as I can not take any responsibility. So please test this code
 # thoroughly beforehand by giving a variety of inputs, and confirm that it gives the required output. 
 # Also, the input - the coordinates - must be within the reach of the leg, otherwise it will cause math error
-# For the robot's dimension, refer to my YouTube video: https://youtu.be/YCw0JkgeTv8
-# Note: x-axis is positive to the right of the robot, y-axis is positive in the forward direction, and z-axis upwards
+# YouTube: https://youtu.be/YCw0JkgeTv8
 
 from math import sin,cos,acos,atan,sqrt,degrees,radians, pi
 
 def coordinate_to_degrees(x, y): # function to convert coordinates to angles from the x-axis (0~360)
-    
+    x += 0.00001    
+ 
     if x >= 0 and y >= 0:   # first quadrant
         angle = degrees(atan(y/x))
     elif x < 0 and y >= 0:  # second quadrant
@@ -36,7 +36,7 @@ def IK(pos):
     # theta3 : this is the angle the for the third servo motor and is measured from the axis that is co-linear to the femur. 
  
     x, y, z = pos[0], pos[1], pos[2]
-    x += 0.00001 # this is to avoid zero-division math. error
+    x += 0.0000001 # this is to avoid zero-division math error
 
     # specify the length of the leg components
     coxa    = 10      # coxa length
@@ -48,21 +48,24 @@ def IK(pos):
     # calculate the offset due to coxa
     coxaXoffset = abs(coxa*cos(radians(theta1)))      
     coxaYoffset = abs(coxa*sin(radians(theta1)))     
-    
-    # remove the offset due to the length of coxa    
-    if x >= 0:  x = x - coxaXoffset
-    elif x < 0: x = x + coxaXoffset
-    if y >= 0:  y = y - coxaYoffset
-    elif y < 0: y = y + coxaYoffset
-        
-    L = sqrt(x**2 + y**2)
-        
-    if L > femur + tibia: # if the input coordinate is too far (i.e. physically not possible), extend the leg to its maximum length
-        L = femur + tibia 
-    
-    alpha = atan(z/L)
 
-    c = sqrt(L**2 + z**2)
+
+    # remove the offset due to the length of coxa    
+    x -= coxa*cos(radians(theta1))
+    y -= coxa*sin(radians(theta1))
+
+    #print(x,y)
+
+    P = sqrt(x**2 + y**2)
+        
+    if P > femur + tibia: 
+        P = femur + tibia 
+    
+    alpha = atan(z/P)
+
+    c = sqrt(P**2 + z**2)
+    print(c)
+
     
     beta = acos((femur**2+c**2-tibia**2)/(2*femur*c))
     theta2 = beta + alpha
@@ -71,5 +74,5 @@ def IK(pos):
     return round(theta1,1), round(degrees(theta2),1), round(degrees(theta3),1)
 
 # Example of usage
-angles = IK([7.07, -7.07, -10])
+angles = IK([7.07, -7.07, 10])
 print(angles)
