@@ -53,7 +53,7 @@ def IK(pos):
 
     P = sqrt(x**2 + y**2)
         
-    if P > femur + tibia: 
+    if P > femur + tibia: # if the goal coordinate is too far away, this makes sure to avoid math. err. 
         P = femur + tibia 
     
     alpha = atan(z/P)
