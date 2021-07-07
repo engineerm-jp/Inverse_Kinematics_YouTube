@@ -126,6 +126,6 @@ for pos in example_positions:
     print(f'Leg = {legID}, theta1 = {angles[0]}, theta2 = {angles[1]}, theta3 = {angles[2]}') # display the output
 
 
-angles = IK_leg([20,20,20], LegID=1) # when the coordinate is too far away
+angles = IK_leg([20,20,20], LegID=1) # when the coordinate is too far away, it will return error message
 print(f'Leg = {legID}, theta1 = {angles[0]}, theta2 = {angles[1]}, theta3 = {angles[2]}')'''
  
