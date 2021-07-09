@@ -3,7 +3,7 @@
 # This code may still contain some bugs so please be be careful as I can not take any responsibility. So please test this code
 # thoroughly beforehand by giving a variety of inputs, and confirm that it gives the required output. 
 # Also, the input - the coordinates - must be within the reach of the leg, otherwise it will most likely cause a math error
-# YouTube: https://youtu.be/YCw0JkgeTv8
+# YouTube: https://youtu.be/2edpf6fNoso
 # Author: EngineerM
 
 from math import sin,cos,asin,acos,atan,sqrt,degrees,radians, pi
