@@ -192,13 +192,6 @@ class kinematics():
         
         theta_3 = -angles[2] + 45*pi/180
         return [theta_1, theta_2, theta_3]
-
-    # COM calculation of an object
-    def COM_calc(self, vec_start, vec_end):
-        
-        # convert to numpy array for vector calculation
-        vec_start = np.array(vec_start)
-        vec_end = np.array(vec_end)
         
     # set view  
     @staticmethod
