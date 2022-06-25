@@ -1,7 +1,6 @@
 
 import numpy as np
 from numpy.linalg import inv, norm
-from mpl_toolkits import mplot3d
 from numpy import array, asarray, matrix
 from math import *
 import matplotlib.pyplot as plt
