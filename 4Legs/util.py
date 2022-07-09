@@ -34,4 +34,4 @@ def RotMatrix3D(rotation=[0,0,0],is_radians=True, order='xyz'):
     elif order == 'zxy': rotationMatrix = rotY * rotX * rotZ
     elif order == 'zyx': rotationMatrix = rotX * rotY * rotZ
     
-    return rotationMatrix
+    return rotationMatrix # roll pitch and yaw rotation 
